@@ -1,9 +1,14 @@
 import zod from "zod";
 
-const UserSchema = zod.object({
+const UserSignUpSchema = zod.object({
   username: zod.string(),
   email: zod.string().email(),
   password: zod.string(),
 });
 
-export default UserSchema;
+const UserSignInSchema = zod.object({
+  username: zod.string(),
+  password: zod.string(),
+});
+
+export { UserSignUpSchema, UserSignInSchema };

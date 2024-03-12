@@ -1,7 +1,8 @@
 import { Router } from "express";
-import UserSchema from "../../schema/User.js";
+import { UserSignUpSchema, UserSignInSchema } from "../../schema/User.js";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -10,7 +11,7 @@ router.post("/signup", async (req, res) => {
   try {
     const { email, username, password } = req.body;
 
-    const result = UserSchema.safeParse(req.body);
+    const result = UserSignUpSchema.safeParse(req.body);
     if (result.success !== true) {
       return res.status(403).json({
         message: "Invalid Form Details",
@@ -40,24 +41,66 @@ router.post("/signup", async (req, res) => {
       },
     });
 
-    console.log(newUser);
-
     if (newUser) {
-      return res.json({
-        message: "User created successfully",
+      const token = jwt.sign({ payload: username }, process.env.JWT_SECRET);
+
+      return res.status(200).json({
+        message: "Successfully Signed Up",
+        token: token,
       });
     }
   } catch (error) {
-    return res.status(500).json({
-      Error: "Internal Server Error",
+    res.status(500).json({
+      error: "Internal Server Error",
     });
   }
 });
 
-router.post("/signin", (req, res) => {
-  res.json({
-    message: "Sign In Route",
-  });
+router.post("/signin", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    const result = UserSignInSchema.safeParse(req.body);
+    if (result.success !== true) {
+      return res.status(403).json({
+        message: "Invalid Form Details",
+      });
+    }
+
+    const isExisitingUser = await prisma.user.findFirst({
+      where: {
+        username: username,
+      },
+    });
+
+    if (isExisitingUser === null) {
+      return res.status(403).json({
+        message: "User does not Exists",
+      });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      isExisitingUser.password
+    );
+
+    if (isPasswordCorrect === false) {
+      return res.status(403).json({
+        message: "Invalid Password",
+      });
+    }
+
+    const token = jwt.sign({ payload: username }, process.env.JWT_SECRET);
+
+    return res.status(200).json({
+      message: "Successfully Signed In",
+      token: token,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Internal Server Error",
+    });
+  }
 });
 
 export default router;
