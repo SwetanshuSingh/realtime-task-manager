@@ -4,6 +4,7 @@ const UserSignUpSchema = zod.object({
   username: zod.string(),
   email: zod.string().email(),
   password: zod.string(),
+  role: zod.string(),
 });
 
 const UserSignInSchema = zod.object({

@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 
 router.post("/signup", async (req, res) => {
   try {
-    const { email, username, password } = req.body;
+    const { email, username, password, role } = req.body;
 
     const result = UserSignUpSchema.safeParse(req.body);
     if (result.success !== true) {
@@ -38,6 +38,7 @@ router.post("/signup", async (req, res) => {
         email: email,
         username: username,
         password: hashedPassword,
+        role: role,
       },
     });
 
@@ -46,6 +47,7 @@ router.post("/signup", async (req, res) => {
 
       return res.status(200).json({
         message: "Successfully Signed Up",
+        role: newUser.role,
         token: token,
       });
     }
@@ -94,6 +96,7 @@ router.post("/signin", async (req, res) => {
 
     return res.status(200).json({
       message: "Successfully Signed In",
+      role: isExisitingUser.role,
       token: token,
     });
   } catch (error) {
