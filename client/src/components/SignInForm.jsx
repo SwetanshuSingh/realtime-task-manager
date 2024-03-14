@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const SignInFrom = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -67,9 +68,10 @@ const SignInFrom = () => {
 
 
 
-      <button onClick={handleSubmit} className="w-full h-full p-1 mt-5 bg-white rounded text-lg font-semibold">
+      <button onClick={handleSubmit} className="w-full h-full p-1 mt-5 bg-[#f5ebe0] rounded text-lg font-semibold">
         Sign In
       </button>
+      <p className="text-gray-50">Not an exisiting user? <Link to="/" className="underline underline-offset-2">Sign Up</Link></p>
     </form>
   );
 };

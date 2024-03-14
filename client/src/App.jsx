@@ -12,9 +12,9 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={auth.token ? <HomePage /> : <SignUpPage />} />
-        <Route path="/signin" element={auth.token ? <HomePage /> : <SignInPage />} />
-        <Route path="/home" element={auth.token ? <HomePage /> : <SignInPage />} />
+        <Route path="/" element={auth?.token ? <HomePage /> : <SignUpPage />} />
+        <Route path="/signin" element={auth?.token ? <HomePage /> : <SignInPage />} />
+        <Route path="/home" element={auth?.token ? <HomePage /> : <SignInPage />} />
       </Routes>
     </BrowserRouter>
   )

@@ -1,17 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import TaskCard from "./ui/TaskCard";
 import { AuthContext } from "../context/AuthContextProvider";
-
-const getUserTasks = async (token, setTasks) => {
-  const response = await fetch("/api/tasks/all", {
-    headers : {
-      'token' : token
-    }
-  });
-
-  const result = await response.json();
-  setTasks(result.data);
-}
+import getUserTasks from "../utils/getUserTasks";
 
 export const Tasks = () => {
 

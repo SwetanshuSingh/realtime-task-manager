@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({ username: "", email: "", password: "", role: "user" });
@@ -94,9 +95,11 @@ const SignUpForm = () => {
         </select>
       </div>
 
-      <button onClick={handleSubmit} className="w-full h-full p-1 mt-5 bg-white rounded text-lg font-semibold">
+      <button onClick={handleSubmit} className="w-full h-full p-1 mt-5 bg-[#f5ebe0] rounded text-lg font-semibold">
         Sign Up
       </button>
+
+      <p className="text-gray-50">Already an User? <Link to="/signin" className="underline underline-offset-2">Sign In</Link></p>
     </form>
   );
 };
