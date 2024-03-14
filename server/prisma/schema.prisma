@@ -19,4 +19,15 @@ model User {
   email    String
   password String
   role     String
+  tasks    Task[] @relation()
+}
+
+model Task {
+  id          String   @id @default(uuid())
+  title       String   @unique
+  description String
+  createdAt   DateTime @default(now())
+  completed   Boolean  @default(false)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
 }
