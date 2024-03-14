@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-const SignUpForm = () => {
-  const [formData, setFormData] = useState({ username: "", email: "", password: "", role: "user" });
+const SignInFrom = () => {
+  const [formData, setFormData] = useState({ username: "", password: "" });
 
   const handleChange = (evt) => {
     setFormData((prev) => {
@@ -11,7 +11,7 @@ const SignUpForm = () => {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    const response = await fetch("/api/auth/signup", {
+    const response = await fetch("/api/auth/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -21,12 +21,12 @@ const SignUpForm = () => {
 
     const data = await response.json();
     if (response.ok) {
-      localStorage.setItem("auth", JSON.stringify(data))
+      localStorage.setItem("auth", JSON.stringify(data));
     } else {
       console.log(data.message)
     }
 
-    setFormData({ username: "", email: "", password: "", role: "user" });
+    setFormData({ username: "", password: "" });
   }
 
   return (
@@ -49,19 +49,7 @@ const SignUpForm = () => {
         />
       </div>
 
-      <div className="w-full">
-        <label className="text-white" htmlFor="email">
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full h-10 rounded-md bg-[#181818] border-2 border-[#f9f9f9] border-opacity-15 outline-none text-white p-2 mt-1"
-          type="email"
-        />
-      </div>
+
 
       <div className="w-full">
         <label className="text-white" htmlFor="password">
@@ -77,28 +65,13 @@ const SignUpForm = () => {
         />
       </div>
 
-      <div className="w-full">
-        <label className="text-white" htmlFor="role">
-          Select your role
-        </label>
-        <select
-          id="role"
-          name="role"
-          defaultChecked
-          value={formData.role}
-          onChange={handleChange}
-          className="w-full h-10 rounded-md bg-[#181818] border-2 border-[#f9f9f9] border-opacity-15 outline-none text-white p-2 mt-1"
-        >
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-        </select>
-      </div>
+
 
       <button onClick={handleSubmit} className="w-full h-full p-1 mt-5 bg-white rounded text-lg font-semibold">
-        Sign Up
+        Sign In
       </button>
     </form>
   );
 };
 
-export default SignUpForm;
+export default SignInFrom;

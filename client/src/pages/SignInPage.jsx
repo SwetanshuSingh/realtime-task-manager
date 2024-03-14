@@ -1,9 +1,11 @@
+import SignInFrom from "../components/SignInForm";
+
 const SignInPage = () => {
     return (
-        <div>
-            Sign In Page
-        </div>
+        <main className="w-full h-[100vh] bg-[#181818] p-12 flex justify-center items-center">
+            <SignInFrom />
+        </main>
     )
 }
 
-export  default SignInPage;
+export default SignInPage;
