@@ -1,8 +1,8 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import TaskCard from "./ui/TaskCard";
 import { AuthContext } from "../context/AuthContextProvider";
 
-const getUserTasks = async ( token ) => {
+const getUserTasks = async (token, setTasks) => {
   const response = await fetch("/api/tasks/all", {
     headers : {
       'token' : token
@@ -10,15 +10,16 @@ const getUserTasks = async ( token ) => {
   });
 
   const result = await response.json();
-  console.log(result.data);
+  setTasks(result.data);
 }
 
 export const Tasks = () => {
 
   const { auth } = useContext(AuthContext);
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    getUserTasks(auth.token);
+    getUserTasks(auth.token, setTasks);
   }, [])
 
   return (
@@ -29,7 +30,9 @@ export const Tasks = () => {
       </h2>
 
       <div className="all-tasks w-full h-full flex flex-row items-justify gap-5 flex-wrap overflow-y-scroll">
-        <TaskCard />
+        {tasks && tasks.map((task) => {
+          return <TaskCard key={task.id} data={task} />
+        })}
       </div>
     </section>
   )
