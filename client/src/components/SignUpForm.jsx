@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({ username: "", email: "", password: "", role: "user" });
-
+  const navigate = useNavigate();
   const handleChange = (evt) => {
     setFormData((prev) => {
       return { ...prev, [evt.target.name]: evt.target.value }
@@ -28,6 +28,7 @@ const SignUpForm = () => {
     }
 
     setFormData({ username: "", email: "", password: "", role: "user" });
+    navigate("/home");
   }
 
   return (

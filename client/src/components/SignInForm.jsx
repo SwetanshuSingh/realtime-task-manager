@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignInFrom = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
+  const navigate = useNavigate();
 
   const handleChange = (evt) => {
     setFormData((prev) => {
@@ -26,8 +27,9 @@ const SignInFrom = () => {
     } else {
       console.log(data.message)
     }
-
+    
     setFormData({ username: "", password: "" });
+    navigate("/home")
   }
 
   return (
