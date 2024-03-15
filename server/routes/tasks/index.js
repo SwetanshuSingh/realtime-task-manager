@@ -76,9 +76,9 @@ router.post("/create", authMiddleware, async (req, res) => {
   }
 });
 
-router.post("/delete", authMiddleware, async (req, res) => {
+router.get("/delete", authMiddleware, async (req, res) => {
   try {
-    const { taskId } = req.body;
+    const { taskid } = req.headers;    
     const { username } = res;
 
     const userDetails = await prisma.user.findUnique({
@@ -89,15 +89,14 @@ router.post("/delete", authMiddleware, async (req, res) => {
 
     const deletedTask = await prisma.task.delete({
       where: {
-        id: taskId,
+        id: taskid,
         userId: userDetails.id,
       },
     });
 
-    console.log(deletedTask);
-
     return res.status(200).json({
       message: "Task Deleted Successfully",
+      data : deletedTask
     });
   } catch (error) {
     console.log(error);

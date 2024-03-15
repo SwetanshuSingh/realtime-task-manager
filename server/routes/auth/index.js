@@ -47,6 +47,7 @@ router.post("/signup", async (req, res) => {
 
       return res.status(200).json({
         message: "Successfully Signed Up",
+        username : newUser.username,
         role: newUser.role,
         token: token,
       });
@@ -96,6 +97,7 @@ router.post("/signin", async (req, res) => {
 
     return res.status(200).json({
       message: "Successfully Signed In",
+      username : isExisitingUser.username,
       role: isExisitingUser.role,
       token: token,
     });

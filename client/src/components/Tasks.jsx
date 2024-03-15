@@ -27,7 +27,7 @@ export const Tasks = () => {
 
       <div className="all-tasks w-full h-full flex flex-row items-justify gap-5 flex-wrap overflow-y-scroll">
         {tasks && tasks.map((task) => {
-          return <TaskCard key={task.id} data={task} />
+          return <TaskCard key={task.id} data={task} setTasks={setTasks} token={auth.token} />
         })}
       </div>
     </section>
