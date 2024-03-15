@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Button, Label, Modal, TextInput } from 'flowbite-react';
 import { useState } from 'react';
+import toast from "react-hot-toast"
 
 export default function NewTaskModal({ token, setTasks }) {
   const [openModal, setOpenModal] = useState(false);
@@ -18,6 +19,12 @@ export default function NewTaskModal({ token, setTasks }) {
   }
   
   const handleSubmit = async () => {
+    if(formData?.title?.length === 0 || formData.title === undefined){
+      toast.error("Title cannot be empty");
+      onCloseModal();
+      return
+    }
+
     const response = await fetch("/api/tasks/create", {
       method : "POST",
       headers : {
@@ -28,10 +35,15 @@ export default function NewTaskModal({ token, setTasks }) {
     });
 
     const result = await response.json();
-    console.log(result);
-    setTasks((prev) => {
-      return [...prev, result.data]
-    })
+    if(response.status === 200){
+      setTasks((prev) => {
+        return [...prev, result.data]
+      })
+    }
+    else{
+      console.log(result);
+      toast.error(result.error);
+    }
     onCloseModal();
   }
 

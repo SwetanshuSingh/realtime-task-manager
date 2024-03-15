@@ -1,6 +1,7 @@
 import { Router, json } from "express";
 import authMiddleware from "../../middleware/authMiddleware.js";
 import { PrismaClient } from "@prisma/client";
+import { taskSchema } from "../../schema/Task.js";
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -39,6 +40,14 @@ router.post("/create", authMiddleware, async (req, res) => {
     const { title, description } = req.body;
     const { username } = res;
 
+    const result = taskSchema.safeParse(req.body);
+
+    if (!result.success) {
+      return res.status(403).json({
+        error: "Invalid Details",
+      });
+    }
+
     const userDetails = await prisma.user.findUnique({
       where: {
         username: username,
@@ -48,11 +57,13 @@ router.post("/create", authMiddleware, async (req, res) => {
       },
     });
 
-    const isExistingTask = userDetails.tasks.filter((task) => task.title === title);
+    const isExistingTask = userDetails.tasks.filter(
+      (task) => task.title === title
+    );
 
     if (isExistingTask.length > 0) {
       return res.status(403).json({
-        message: "Task already exists",
+        error: "Task already exists",
       });
     }
 
@@ -78,7 +89,7 @@ router.post("/create", authMiddleware, async (req, res) => {
 
 router.get("/delete", authMiddleware, async (req, res) => {
   try {
-    const { taskid } = req.headers;    
+    const { taskid } = req.headers;
     const { username } = res;
 
     const userDetails = await prisma.user.findUnique({
@@ -96,7 +107,7 @@ router.get("/delete", authMiddleware, async (req, res) => {
 
     return res.status(200).json({
       message: "Task Deleted Successfully",
-      data : deletedTask
+      data: deletedTask,
     });
   } catch (error) {
     console.log(error);
