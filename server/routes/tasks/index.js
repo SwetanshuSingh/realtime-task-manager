@@ -48,11 +48,9 @@ router.post("/create", authMiddleware, async (req, res) => {
       },
     });
 
-    const isExistingTask = userDetails.tasks.filter(
-      (task) => task.title === title
-    );
+    const isExistingTask = userDetails.tasks.filter((task) => task.title === title);
 
-    if (isExistingTask) {
+    if (isExistingTask.length > 0) {
       return res.status(403).json({
         message: "Task already exists",
       });

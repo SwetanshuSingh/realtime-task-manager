@@ -1,13 +1,34 @@
+/* eslint-disable react/prop-types */
 import { Button, Label, Modal, TextInput } from 'flowbite-react';
 import { useState } from 'react';
 
-export default function NewTaskModal() {
+export default function NewTaskModal({ token }) {
   const [openModal, setOpenModal] = useState(false);
-  const [email, setEmail] = useState('');
+  const [formData, setFormData] = useState({title : "", description : ""});
 
-  function onCloseModal() {
+  const onCloseModal = () => {
     setOpenModal(false);
-    setEmail('');
+    setFormData('');
+  }
+
+  const handleChange = (evt) => {
+    setFormData((prev) => {
+      return {...prev, [evt.target.name] : evt.target.value}
+    })
+  }
+  
+  const handleSubmit = async () => {
+    const response = await fetch("/api/tasks/create", {
+      method : "POST",
+      headers : {
+        'token' : token,
+        'Content-Type' : 'application/json'
+      },
+      body : JSON.stringify(formData)
+    });
+
+    const result = await response.json();
+    console.log(result);
   }
 
   return (
@@ -24,8 +45,9 @@ export default function NewTaskModal() {
               </div>
               <TextInput
                 id="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -33,10 +55,10 @@ export default function NewTaskModal() {
               <div className="mb-2 block">
                 <Label className="text-[#DBE1E8] font-0 text-lg" htmlFor="password" value="Description" />
               </div>
-              <textarea className="w-full rounded-lg" name="" id="" cols="30" rows="5"></textarea>
+              <textarea onChange={handleChange} className="w-full rounded-lg text-sm" name="description" id="description" cols="30" rows="5"></textarea>
             </div>
             <div className="w-full flex justify-center">  
-              <Button className="bg-green-500 bg-opacity-85 shadow-lg font-semibold text-white rounded-lg font-0">Create Task</Button>
+              <Button onClick={handleSubmit} className="bg-green-500 bg-opacity-85 shadow-lg font-semibold text-white rounded-lg font-0">Create Task</Button>
             </div>
           </div>
         </Modal.Body>
