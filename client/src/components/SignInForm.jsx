@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import { AuthContext } from "../context/AuthContextProvider";
+import handleSignIn from "../utils/handleSignIn";
 
 const SignInFrom = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -14,34 +14,11 @@ const SignInFrom = () => {
     })
   }
 
-  const handleSubmit = async (evt) => {
-    evt.preventDefault();
-    const response = await fetch("/api/auth/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(formData)
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      toast.success(data.message);
-      localStorage.setItem("auth", JSON.stringify(data));
-      setAuth(data);
-      navigate("/home");
-    } else {
-      toast.error(data.error);
-    }
-    setFormData({ username: "", password: "" });
-    
-  }
-
   return (
     <form
       className=" w-72 h-fit flex flex-col justify-around gap-4 items-center bg-[#212121] p-4 rounded-xl border-2 border-[#f9f9f9] border-opacity-5"
       action="/"
-      onSubmit={handleSubmit}
+      onSubmit={(evt) => {handleSignIn(evt, formData, setAuth, navigate, setFormData)}}
     >
       <div className="w-full">
         <label className="text-white" htmlFor="username">
@@ -57,8 +34,6 @@ const SignInFrom = () => {
         />
       </div>
 
-
-
       <div className="w-full">
         <label className="text-white" htmlFor="password">
           Password
@@ -73,9 +48,7 @@ const SignInFrom = () => {
         />
       </div>
 
-
-
-      <button onClick={handleSubmit} className="w-full h-full p-1 mt-5 bg-[#f5ebe0] rounded text-lg font-semibold">
+      <button onClick={(evt) => {handleSignIn(evt, formData, setAuth, navigate, setFormData)}} className="w-full h-full p-1 mt-5 bg-[#f5ebe0] rounded text-lg font-semibold">
         Sign In
       </button>
       <p className="text-gray-50">Not an exisiting user? <Link to="/" className="underline underline-offset-2">Sign Up</Link></p>

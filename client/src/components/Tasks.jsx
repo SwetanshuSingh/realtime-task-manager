@@ -17,8 +17,8 @@ export const Tasks = () => {
     <section className=" w-full h-full flex flex-col gap-5 bg-[#212121] rounded-xl border-2 border-[#f9f9f9] border-opacity-5 px-8 py-6">
       <div className="w-full flex justify-between">
         <h2 className="font-medium text-white text-3xl relative">
-          All Tasks
-          <span className="absolute top-9 left-0 w-16 h-1 bg-green-500 rounded-full"></span>
+          Your Tasks
+          <span className="absolute top-9 left-0 w-20 h-1 bg-green-500 rounded-full"></span>
         </h2>
 
         {/* <button className="w-fit bg-green-500 bg-opacity-85 text-[#212121] shadow-lg px-3 py-1 font-semibold rounded-full uppercase">Add Task</button> */}
