@@ -22,7 +22,7 @@ export const Tasks = () => {
         </h2>
 
         {/* <button className="w-fit bg-green-500 bg-opacity-85 text-[#212121] shadow-lg px-3 py-1 font-semibold rounded-full uppercase">Add Task</button> */}
-        <NewTaskModal token={auth.token} />
+        <NewTaskModal token={auth.token} setTasks={setTasks} />
       </div>
 
       <div className="all-tasks w-full h-full flex flex-row items-justify gap-5 flex-wrap overflow-y-scroll">

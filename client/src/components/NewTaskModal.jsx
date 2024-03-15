@@ -2,7 +2,7 @@
 import { Button, Label, Modal, TextInput } from 'flowbite-react';
 import { useState } from 'react';
 
-export default function NewTaskModal({ token }) {
+export default function NewTaskModal({ token, setTasks }) {
   const [openModal, setOpenModal] = useState(false);
   const [formData, setFormData] = useState({title : "", description : ""});
 
@@ -29,6 +29,10 @@ export default function NewTaskModal({ token }) {
 
     const result = await response.json();
     console.log(result);
+    setTasks((prev) => {
+      return [...prev, result.data]
+    })
+    onCloseModal();
   }
 
   return (
