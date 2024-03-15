@@ -14,7 +14,7 @@ router.post("/signup", async (req, res) => {
     const result = UserSignUpSchema.safeParse(req.body);
     if (result.success !== true) {
       return res.status(403).json({
-        message: "Invalid Form Details",
+        error: "Invalid Form Details",
       });
     }
 
@@ -27,7 +27,7 @@ router.post("/signup", async (req, res) => {
 
     if (isExisitingUser !== null) {
       return res.status(403).json({
-        message: "User already Exists",
+        error: "User already Exists",
       });
     }
 
@@ -65,7 +65,7 @@ router.post("/signin", async (req, res) => {
     const result = UserSignInSchema.safeParse(req.body);
     if (result.success !== true) {
       return res.status(403).json({
-        message: "Invalid Form Details",
+        error: "Invalid Form Details",
       });
     }
 
@@ -77,7 +77,7 @@ router.post("/signin", async (req, res) => {
 
     if (isExisitingUser === null) {
       return res.status(403).json({
-        message: "User does not Exists",
+        error: "User does not Exists",
       });
     }
 
@@ -88,7 +88,7 @@ router.post("/signin", async (req, res) => {
 
     if (isPasswordCorrect === false) {
       return res.status(403).json({
-        message: "Invalid Password",
+        error: "Invalid Password",
       });
     }
 

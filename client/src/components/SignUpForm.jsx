@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { AuthContext } from "../context/AuthContextProvider";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({ username: "", email: "", password: "", role: "user" });
   const navigate = useNavigate();
+  const { setAuth } = useContext(AuthContext);
+
   const handleChange = (evt) => {
     setFormData((prev) => {
       return { ...prev, [evt.target.name]: evt.target.value }
@@ -21,14 +25,15 @@ const SignUpForm = () => {
     });
 
     const data = await response.json();
-    if (response.ok) {
-      localStorage.setItem("auth", JSON.stringify(data))
+    if (response.status === 200) {
+      toast.success(data.message);
+      localStorage.setItem("auth", JSON.stringify(data));
+      setAuth(data);
+      navigate("/home");
     } else {
-      console.log(data.message)
+      toast.error(data.error);
     }
-
-    setFormData({ username: "", email: "", password: "", role: "user" });
-    navigate("/home");
+    setFormData({ username: "", email: "", password: "", role: "user" });    
   }
 
   return (

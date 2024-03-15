@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { AuthContext } from "../context/AuthContextProvider";
 
 const SignInFrom = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
+  const { setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleChange = (evt) => {
@@ -23,13 +26,15 @@ const SignInFrom = () => {
 
     const data = await response.json();
     if (response.ok) {
+      toast.success(data.message);
       localStorage.setItem("auth", JSON.stringify(data));
+      setAuth(data);
+      navigate("/home");
     } else {
-      console.log(data.message)
+      toast.error(data.error);
     }
-    
     setFormData({ username: "", password: "" });
-    navigate("/home")
+    
   }
 
   return (
