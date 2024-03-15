@@ -1,6 +1,7 @@
-import getTaskData from "../../utils/getTaskDate";
-
 /* eslint-disable react/prop-types */
+import getTaskData from "../../utils/getTaskDate";
+import { FilePenLine, Trash2 } from "lucide-react"
+
 const TaskCard = ({ data }) => {
 
   return (
@@ -12,7 +13,13 @@ const TaskCard = ({ data }) => {
 
       <div className="flex flex-col gap-1">
         <h4 className="font-medium ml-2">{getTaskData(data.createdAt)}</h4>
-        <button className="w-fit bg-red-600 px-3 py-1 font-medium rounded-full">Incomplete</button>
+        <div className="flex justify-between items-center">
+          <button className="w-fit bg-red-600 px-3 py-1 font-medium rounded-full">Incomplete</button>
+          <span className="flex justify-center items-center gap-3">
+            <FilePenLine className="cursor-pointer hover:scale-125 transition-transform" />
+            <Trash2 className="cursor-pointer hover:scale-125 transition-transform" />
+          </span>
+        </div>
       </div>
     </div>
   )
