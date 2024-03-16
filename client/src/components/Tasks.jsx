@@ -20,8 +20,6 @@ export const Tasks = () => {
           Your Tasks
           <span className="absolute top-9 left-0 w-20 h-1 bg-green-500 rounded-full"></span>
         </h2>
-
-        {/* <button className="w-fit bg-green-500 bg-opacity-85 text-[#212121] shadow-lg px-3 py-1 font-semibold rounded-full uppercase">Add Task</button> */}
         <NewTaskModal token={auth.token} setTasks={setTasks} />
       </div>
 

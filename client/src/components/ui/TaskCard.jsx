@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import getTaskData from "../../utils/getTaskDate";
-import { FilePenLine, Trash2 } from "lucide-react"
+import { Trash2 } from "lucide-react"
 import completeTask from "../../utils/completeUserTasks";
 import deleteTask from "../../utils/deleteUserTasks";
+import UpdateTaskModal from "../UpdateTaskModal";
 
 const TaskCard = ({ data, setTasks, token }) => {
   
@@ -21,7 +22,7 @@ const TaskCard = ({ data, setTasks, token }) => {
         <div className="flex justify-between items-center">
           <button onClick={() => {completeTask(token, data, setIsCompleted)}} className={`w-fit ${isCompleted ? "bg-green-400" : "bg-red-600"}  px-3 py-1 font-medium rounded-full`}>{isCompleted ? "Completed" : "Incomplete"}</button>
           <span className="flex justify-center items-center gap-3">
-            <FilePenLine className="cursor-pointer hover:scale-125 transition-transform" />
+            <UpdateTaskModal token={token} setTasks={setTasks} title={data.title} description={data.description} />
             <Trash2 onClick={() => {deleteTask(token, data, setTasks)}} className="cursor-pointer hover:scale-125 transition-transform" />
           </span>
         </div>

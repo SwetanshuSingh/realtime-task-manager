@@ -150,4 +150,61 @@ router.post("/update/status", authMiddleware, async (req, res) => {
   }
 });
 
+router.post("/update/edit", authMiddleware, async (req, res) => {
+  try {
+    const { taskId, title, description } = req.body;
+  const { username } = res;
+
+  const result = taskSchema.safeParse(req.body);
+
+    if (!result.success) {
+      return res.status(403).json({
+        error: "Invalid Details",
+      });
+    }
+
+    const userDetails = await prisma.user.findUnique({
+      where: {
+        username: username,
+      },
+      include: {
+        tasks: true,
+      },
+    });
+
+    const isExistingTask = userDetails.tasks.filter(
+      (task) => task.title === title
+    );
+
+    if (isExistingTask.length > 0) {
+      return res.status(403).json({
+        error: "No details changed",
+      });
+    }
+
+    const updatedTask = await prisma.task.update({
+      where : {
+        taskId : taskId,
+        userId : userDetails.id
+      },
+      data : {
+        title : title,
+        description : description
+      }
+    });
+
+    return res.status(200).json({
+      message : "Task Updated Successfully",
+      data : updatedTask
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error : "Internal Server Error"
+    })
+  }
+
+})
+
 export default router;
