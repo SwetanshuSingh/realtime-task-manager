@@ -21,7 +21,7 @@ const SignUpForm = () => {
     <form
       className=" w-72 h-fit flex flex-col justify-around gap-4 items-center bg-[#212121] p-4 rounded-xl border-2 border-[#f9f9f9] border-opacity-5"
       action="/"
-      onSubmit={(evt) => handleSignUp(evt, setAuth, navigate, formData, setFormData, setIsLoading)}
+      onSubmit={(evt) => handleSignUp(evt, setAuth, navigate, formData, setFormData, isLoading, setIsLoading)}
     >
       <div className="w-full">
         <label className="text-white" htmlFor="username">
@@ -82,7 +82,7 @@ const SignUpForm = () => {
         </select>
       </div>
 
-      <button onClick={(evt) => handleSignUp(evt, setAuth, navigate, formData, setFormData, setIsLoading)} className="w-full h-full p-1 mt-5 bg-[#f5ebe0] rounded text-lg font-semibold flex justify-center items-center">
+      <button onClick={(evt) => handleSignUp(evt, setAuth, navigate, formData, setFormData, isLoading, setIsLoading)} className="w-full h-full p-1 mt-5 bg-[#f5ebe0] rounded text-lg font-semibold flex justify-center items-center">
         {isLoading ? <LoaderCircle className="animate-spin" /> : "Sign Up"}
       </button>
 

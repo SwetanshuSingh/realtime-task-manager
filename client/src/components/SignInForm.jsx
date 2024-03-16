@@ -20,7 +20,7 @@ const SignInFrom = () => {
     <form
       className=" w-72 h-fit flex flex-col justify-around gap-4 items-center bg-[#212121] p-4 rounded-xl border-2 border-[#f9f9f9] border-opacity-5"
       action="/"
-      onSubmit={(evt) => {handleSignIn(evt, formData, setAuth, navigate, setFormData, setIsLoading)}}
+      onSubmit={(evt) => {handleSignIn(evt, formData, setAuth, navigate, setFormData, isLoading, setIsLoading)}}
     >
       <div className="w-full">
         <label className="text-white" htmlFor="username">
@@ -50,7 +50,7 @@ const SignInFrom = () => {
         />
       </div>
 
-      <button onClick={(evt) => {handleSignIn(evt, formData, setAuth, navigate, setFormData, setIsLoading)}} className="w-full h-full p-1 mt-5 bg-[#f5ebe0] rounded text-lg font-semibold flex justify-center items-center">
+      <button onClick={(evt) => {handleSignIn(evt, formData, setAuth, navigate, setFormData, isLoading, setIsLoading)}} className="w-full h-full p-1 mt-5 bg-[#f5ebe0] rounded text-lg font-semibold flex justify-center items-center">
         {isLoading ? <LoaderCircle className="animate-spin" /> : "Sign In"}
       </button>
       <p className="text-gray-50">Not an exisiting user? <Link to="/" className="underline underline-offset-2">Sign Up</Link></p>
