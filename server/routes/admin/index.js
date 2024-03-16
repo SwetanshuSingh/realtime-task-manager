@@ -24,7 +24,7 @@ router.get("/all", authMiddleware, async (req, res) => {
     })
   }
 
-  const allTasks = await primsa.task.findMany({
+  const allTasks = await prisma.task.findMany({
     include : {
       user : {
         select : {
@@ -58,7 +58,7 @@ router.get("/delete", authMiddleware, async (req, res) => {
     })
   }
 
-  const deletedTask = await primsa.task.delete({
+  const deletedTask = await prisma.task.delete({
     where : {
       id : taskid
     }
@@ -83,7 +83,7 @@ router.post("/update", authMiddleware, async (req, res) => {
           error: "Invalid Details",
         });
       }
-  
+      
       const userDetails = await prisma.user.findUnique({
         where: {
           username: username,
@@ -92,6 +92,21 @@ router.post("/update", authMiddleware, async (req, res) => {
           tasks: true,
         },
       });
+
+      const isAdmin = await prisma.user.findFirst({
+        where : {
+          username : username
+        },
+        select : {
+          role : true
+        }
+      });
+    
+      if(isAdmin.role !== "admin"){
+        return res.status(403).json({
+          message : "Unauthorized Access"
+        })
+      }
   
       const isExistingTask = userDetails.tasks.filter(
         (task) => task.title === title
@@ -106,7 +121,6 @@ router.post("/update", authMiddleware, async (req, res) => {
       const updatedTask = await prisma.task.update({
         where : {
           id : taskId,
-          userId : userDetails.id
         },
         data : {
           title : title,

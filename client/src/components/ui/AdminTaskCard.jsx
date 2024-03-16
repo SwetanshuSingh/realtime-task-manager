@@ -3,8 +3,8 @@ import { useState } from "react";
 import getTaskData from "../../utils/getTaskDate";
 import { Trash2, Loader } from "lucide-react"
 import completeTask from "../../utils/completeUserTasks";
-import UpdateTaskModal from "../UpdateTaskModal";
 import toast from "react-hot-toast";
+import AdminUpdateModal from "../AdminUpdateModal";
 
 const AdminTaskCard = ({ data, setTasks, token }) => {
   
@@ -55,7 +55,7 @@ const AdminTaskCard = ({ data, setTasks, token }) => {
         <div className="flex justify-between items-center">
           <button onClick={() => {completeTask(token, data, setIsCompleted)}} className={`w-fit ${isCompleted ? "bg-green-400" : "bg-red-600"}  px-3 py-1 font-medium rounded-full text-sm lg:text-base`}>{isCompleted ? "Completed" : "Incomplete"}</button>
           <span className="flex justify-center items-center gap-3">
-            <UpdateTaskModal token={token} setTasks={setTasks} title={data.title} description={data.description} taskId={data.id} />
+            <AdminUpdateModal token={token} setTasks={setTasks} title={data.title} description={data.description} taskId={data.id} />
             { isDeleting ? <Loader className="animate-spin" /> : <Trash2 onClick={() => {deleteTask(token, data, setTasks, isDeleting, setIsDeleting)}} className="cursor-pointer hover:scale-125 transition-transform" /> }
           </span>
         </div>
