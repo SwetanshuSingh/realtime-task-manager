@@ -3,14 +3,16 @@ import TaskCard from "./ui/TaskCard";
 import { AuthContext } from "../context/AuthContextProvider";
 import getUserTasks from "../utils/getUserTasks";
 import NewTaskModal from "./NewTaskModal";
+import { Loader } from "lucide-react"
 
 export const Tasks = () => {
 
   const { auth } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
   
   useEffect(() => {
-    getUserTasks(auth.token, setTasks);
+    getUserTasks(auth.token, setTasks, setIsLoading);
   }, [])
 
   return (
@@ -24,9 +26,13 @@ export const Tasks = () => {
       </div>
 
       <div className="all-tasks w-full h-full flex flex-row items-justify gap-5 flex-wrap overflow-y-scroll">
+
+        {isLoading ? <div className="w-full h-full flex justify-center items-center"><Loader size={40} className="animate-spin text-white" /></div> : null}
+
         {tasks && tasks.map((task) => {
           return <TaskCard key={task.id} data={task} setTasks={setTasks} token={auth.token} />
         })}
+
       </div>
     </section>
   )

@@ -1,7 +1,8 @@
 import toast from "react-hot-toast";
 
-const handleSignIn = async (evt, formData, setAuth, navigate, setFormData) => {
+const handleSignIn = async (evt, formData, setAuth, navigate, setFormData, setIsLoading) => {
   evt.preventDefault();
+  setIsLoading(true)
   const response = await fetch("/api/auth/signin", {
     method: "POST",
     headers: {
@@ -20,7 +21,7 @@ const handleSignIn = async (evt, formData, setAuth, navigate, setFormData) => {
     toast.error(data.error);
   }
   setFormData({ username: "", password: "" });
-  
+  setIsLoading(false);
 }
 
 export default handleSignIn;

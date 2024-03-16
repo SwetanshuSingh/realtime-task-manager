@@ -2,9 +2,11 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContextProvider";
 import handleSignIn from "../utils/handleSignIn";
+import { LoaderCircle } from "lucide-react"
 
 const SignInFrom = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
+  const [isLoading, setIsLoading] = useState(false);
   const { setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -18,7 +20,7 @@ const SignInFrom = () => {
     <form
       className=" w-72 h-fit flex flex-col justify-around gap-4 items-center bg-[#212121] p-4 rounded-xl border-2 border-[#f9f9f9] border-opacity-5"
       action="/"
-      onSubmit={(evt) => {handleSignIn(evt, formData, setAuth, navigate, setFormData)}}
+      onSubmit={(evt) => {handleSignIn(evt, formData, setAuth, navigate, setFormData, setIsLoading)}}
     >
       <div className="w-full">
         <label className="text-white" htmlFor="username">
@@ -48,8 +50,8 @@ const SignInFrom = () => {
         />
       </div>
 
-      <button onClick={(evt) => {handleSignIn(evt, formData, setAuth, navigate, setFormData)}} className="w-full h-full p-1 mt-5 bg-[#f5ebe0] rounded text-lg font-semibold">
-        Sign In
+      <button onClick={(evt) => {handleSignIn(evt, formData, setAuth, navigate, setFormData, setIsLoading)}} className="w-full h-full p-1 mt-5 bg-[#f5ebe0] rounded text-lg font-semibold flex justify-center items-center">
+        {isLoading ? <LoaderCircle className="animate-spin" /> : "Sign In"}
       </button>
       <p className="text-gray-50">Not an exisiting user? <Link to="/" className="underline underline-offset-2">Sign Up</Link></p>
     </form>

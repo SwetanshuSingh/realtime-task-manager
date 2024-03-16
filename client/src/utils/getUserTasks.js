@@ -1,4 +1,5 @@
-const getUserTasks = async (token, setTasks) => {
+const getUserTasks = async (token, setTasks, setIsLoading) => {
+  setIsLoading(true)
   const response = await fetch("/api/tasks/all", {
     headers : {
       'token' : token
@@ -6,6 +7,7 @@ const getUserTasks = async (token, setTasks) => {
   });
 
   const result = await response.json();
+  setIsLoading(false);
   setTasks(result.data);
 }
 

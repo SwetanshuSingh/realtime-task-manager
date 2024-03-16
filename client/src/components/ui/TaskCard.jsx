@@ -14,7 +14,7 @@ const TaskCard = ({ data, setTasks, token }) => {
     <div className="w-[320px] h-[220px] p-3 pt-4 flex flex-col justify-between rounded-md border-2 bg-[#f9f9f9] text-gray-100 bg-opacity-5 border-[#f9f9f9] border-opacity-5">
       <div className=" flex flex-col gap-1">
         <h2 className="text-gray-50 font-semibold text-xl">{data.title}</h2>
-        <p className="font-light">{data.description}</p>
+        <p className="font-light text-gray-300">{data.description}</p>
       </div>
 
       <div className="flex flex-col gap-1">
