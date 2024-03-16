@@ -2,7 +2,6 @@
 import { useState } from "react";
 import getTaskData from "../../utils/getTaskDate";
 import { Trash2, Loader } from "lucide-react"
-import completeTask from "../../utils/completeUserTasks";
 import toast from "react-hot-toast";
 import AdminUpdateModal from "../AdminUpdateModal";
 
@@ -41,7 +40,23 @@ const AdminTaskCard = ({ data, setTasks, token }) => {
     }
   };
 
-
+  const completeTask = async (token, data, setIsCompleted) => {
+    const response = await fetch("/api/tasks/admin/update/status", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        token: token,
+      },
+      body: JSON.stringify({ taskId: data.id, isCompleted: !data.completed }),
+    });
+  
+    const result = await response.json();
+    if (response.status === 200) {
+      setIsCompleted(result.data.completed);
+    } else {
+      toast.error(result.error);
+    }
+  };
 
   return (
     <div className="w-[320px] h-[220px] p-3 pt-4 flex flex-col justify-between rounded-md border-2 bg-[#f9f9f9] text-gray-100 bg-opacity-5 border-[#f9f9f9] border-opacity-5">
