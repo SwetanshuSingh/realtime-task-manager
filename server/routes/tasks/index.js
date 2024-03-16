@@ -117,4 +117,37 @@ router.get("/delete", authMiddleware, async (req, res) => {
   }
 });
 
+router.post("/update/status", authMiddleware, async (req, res) => {
+  try {
+    const { taskId, isCompleted } = req.body;
+    const { username } = res;
+
+    const userDetails = await prisma.user.findUnique({
+      where: {
+        username: username,
+      },
+    });
+
+    const isTaskCompleted = await prisma.task.update({
+      where: {
+        id: taskId,
+        userId : userDetails.id
+      },
+      data : {
+        completed : isCompleted
+      }
+    });
+
+    return res.status(200).json({
+      message: "Updated Successfully",
+      data : isTaskCompleted
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Internal Server Error",
+    });
+  }
+});
+
 export default router;
