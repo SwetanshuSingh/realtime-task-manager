@@ -3,13 +3,45 @@ import { useState } from "react";
 import getTaskData from "../../utils/getTaskDate";
 import { Trash2, Loader } from "lucide-react"
 import completeTask from "../../utils/completeUserTasks";
-import deleteTask from "../../utils/deleteUserTasks";
 import UpdateTaskModal from "../UpdateTaskModal";
+import toast from "react-hot-toast";
 
 const AdminTaskCard = ({ data, setTasks, token }) => {
   
   const [isCompleted, setIsCompleted] = useState(data.completed);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const deleteTask = async (token, data, setTasks, isDeleting, setIsDeleting) => {
+    try {
+      if(isDeleting){
+        return
+      }
+      setIsDeleting(true)
+      const response = await fetch("/api/tasks/admin/delete", {
+        method: "GET",
+        headers: {
+          token: token,
+          taskid: data.id,
+        },
+      });
+    
+      const result = await response.json();
+      if (response.status === 200) {
+        setTasks((prev) => {
+          return prev.filter((task) => task.id !== result.data.id);
+        });
+      } else {
+        toast.error(result.error);
+      }
+  
+    } catch (error) {
+      toast.error("Internal Server Error")
+    } finally {
+      setIsDeleting(false)
+    }
+  };
+
+
 
   return (
     <div className="w-[320px] h-[220px] p-3 pt-4 flex flex-col justify-between rounded-md border-2 bg-[#f9f9f9] text-gray-100 bg-opacity-5 border-[#f9f9f9] border-opacity-5">
