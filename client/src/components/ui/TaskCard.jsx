@@ -22,7 +22,7 @@ const TaskCard = ({ data, setTasks, token }) => {
         <div className="flex justify-between items-center">
           <button onClick={() => {completeTask(token, data, setIsCompleted)}} className={`w-fit ${isCompleted ? "bg-green-400" : "bg-red-600"}  px-3 py-1 font-medium rounded-full`}>{isCompleted ? "Completed" : "Incomplete"}</button>
           <span className="flex justify-center items-center gap-3">
-            <UpdateTaskModal token={token} setTasks={setTasks} title={data.title} description={data.description} />
+            <UpdateTaskModal token={token} setTasks={setTasks} title={data.title} description={data.description} taskId={data.id} />
             <Trash2 onClick={() => {deleteTask(token, data, setTasks)}} className="cursor-pointer hover:scale-125 transition-transform" />
           </span>
         </div>

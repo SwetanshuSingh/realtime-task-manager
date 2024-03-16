@@ -152,7 +152,7 @@ router.post("/update/status", authMiddleware, async (req, res) => {
 
 router.post("/update/edit", authMiddleware, async (req, res) => {
   try {
-    const { taskId, title, description } = req.body;
+  const { taskId, title, description } = req.body;
   const { username } = res;
 
   const result = taskSchema.safeParse(req.body);
@@ -184,13 +184,13 @@ router.post("/update/edit", authMiddleware, async (req, res) => {
 
     const updatedTask = await prisma.task.update({
       where : {
-        taskId : taskId,
+        id : taskId,
         userId : userDetails.id
       },
       data : {
         title : title,
         description : description
-      }
+      },
     });
 
     return res.status(200).json({

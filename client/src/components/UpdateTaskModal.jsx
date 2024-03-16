@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { FilePenLine } from "lucide-react";
 import toast from "react-hot-toast"
 
-export default function UpdateTaskModal({ token, setTasks, title, description }) {
+export default function UpdateTaskModal({ token, setTasks, title, description, taskId }) {
   const [openModal, setOpenModal] = useState(false);
   const [formData, setFormData] = useState({title : title, description : description});
 
@@ -26,23 +26,29 @@ export default function UpdateTaskModal({ token, setTasks, title, description })
       return
     }
 
-    const response = await fetch("/api/tasks/create", {
+    const response = await fetch("/api/tasks/update/edit", {
       method : "POST",
       headers : {
         'token' : token,
         'Content-Type' : 'application/json'
       },
-      body : JSON.stringify(formData)
+      body : JSON.stringify({ taskId : taskId, title : formData.title, description : formData.description })
     });
 
     const result = await response.json();
     if(response.status === 200){
       setTasks((prev) => {
-        return [...prev, result.data]
+        return prev.map((task) => {
+          if(task.id === result.data.id){
+            return result.data
+          } else {
+            return task
+          }
+        })
       })
+      setFormData({title : result.data.title, description : result.data.description});
     }
     else{
-      console.log(result);
       toast.error(result.error);
     }
     onCloseModal();
