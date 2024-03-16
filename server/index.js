@@ -2,6 +2,7 @@ import path from "path"
 import express from "express";
 import authRouter from "./routes/auth/index.js";
 import taskRouter from "./routes/tasks/index.js"
+import adminRouter from "./routes/admin/index.js"
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -12,7 +13,8 @@ const __dirname = path.resolve();
 
 app.use(express.json());
 app.use("/api/auth", authRouter);
-app.use("/api/tasks", taskRouter)
+app.use("/api/tasks", taskRouter);
+app.use("/api/tasks/admin", adminRouter);
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 

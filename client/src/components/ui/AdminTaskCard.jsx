@@ -6,7 +6,7 @@ import completeTask from "../../utils/completeUserTasks";
 import deleteTask from "../../utils/deleteUserTasks";
 import UpdateTaskModal from "../UpdateTaskModal";
 
-const TaskCard = ({ data, setTasks, token }) => {
+const AdminTaskCard = ({ data, setTasks, token }) => {
   
   const [isCompleted, setIsCompleted] = useState(data.completed);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -27,9 +27,10 @@ const TaskCard = ({ data, setTasks, token }) => {
             { isDeleting ? <Loader className="animate-spin" /> : <Trash2 onClick={() => {deleteTask(token, data, setTasks, isDeleting, setIsDeleting)}} className="cursor-pointer hover:scale-125 transition-transform" /> }
           </span>
         </div>
+        <p className="text-gray-300 text-xs ml-2">Author : {data?.user?.username}</p>
       </div>
     </div>
   )
 }
 
-export default TaskCard;
+export default AdminTaskCard;
