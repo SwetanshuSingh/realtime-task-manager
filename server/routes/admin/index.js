@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
 import authMiddleware from "../../middleware/authMiddleware.js";
 import { taskSchema } from "../../schema/Task.js";
+import { io } from "../../socket/socket.js";
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -127,6 +128,8 @@ router.post("/update", authMiddleware, async (req, res) => {
           description : description
         },
       });
+
+      io.emit("newTask", updatedTask);
   
       return res.status(200).json({
         message : "Task Updated Successfully",
@@ -134,7 +137,6 @@ router.post("/update", authMiddleware, async (req, res) => {
       });
   
     } catch (error) {
-      console.log(error);
       res.status(500).json({
         error : "Internal Server Error"
       })
@@ -175,7 +177,6 @@ router.post("/update/status", authMiddleware, async (req, res) => {
       data : isTaskCompleted
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       error: "Internal Server Error",
     });

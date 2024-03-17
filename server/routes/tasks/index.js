@@ -80,7 +80,6 @@ router.post("/create", authMiddleware, async (req, res) => {
       data: newTask,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       error: "Internal Server Error",
     });
@@ -110,7 +109,6 @@ router.get("/delete", authMiddleware, async (req, res) => {
       data: deletedTask,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       error: "Internal Server Error",
     });
@@ -143,7 +141,6 @@ router.post("/update/status", authMiddleware, async (req, res) => {
       data : isTaskCompleted
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       error: "Internal Server Error",
     });
@@ -199,7 +196,6 @@ router.post("/update/edit", authMiddleware, async (req, res) => {
     });
 
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       error : "Internal Server Error"
     })
