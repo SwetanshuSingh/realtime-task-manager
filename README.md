@@ -1,5 +1,8 @@
 # Real-Time Task Management App Setup Documentation
 
+![image](https://github.com/SwetanshuSingh/realtime-task-manager/assets/71164524/9ce9e0c1-7190-4c73-a00e-6fd1e6d44eaf)
+
+
 ## Key Technologies Used
 
 - React.js, TailwindCSS, react-flowbite, Socket.io-client for the frontend.
